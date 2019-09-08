@@ -2,13 +2,13 @@
 title: "Chapter 2 - Summarizing Data"
 author: "Samuel I Kigamba"
 output:
-  html_document:
-    df_print: paged
   pdf_document:
     extra_dependencies:
     - geometry
     - multicol
     - multirow
+  html_document:
+    df_print: paged
 editor_options:
   chunk_output_type: console
 ---
@@ -67,11 +67,11 @@ boxPlot(sym, xlab = "(2)", ylab = "", col = COL[1,3])
 boxPlot(uni, xlab = "(3)", ylab = "", col = COL[1,3])
 ```
 
-**Histogram 1**. The box plot that matches this histogram is (2). The distribution of this data is unimodal, symmetric, and appears it could be normally distributed.
+**Histogram 1**. The box plot that matches this histogram is 2. The distribution of this data is symetrical and appears to be normally distributed.
 
-**Histogram 2**. The box plot that matches this histogram is (3). The distribution of this data might be symmetric but it does not look normally distributed. It is possible it is uniform but a smaller bin width would have to be selected to see.
+**Histogram 2**. The box plot that matches this histogram is 3. The distribution of this data appears symmetrical but it is not normally distributed.
 
-**Histogram 3**. The box plot that matches this histogram is (1). The distribution of this data is unimodal and has a right skew.
+**Histogram 3**. The box plot that matches this histogram is 1. The distribution of this data is unimodal and is skewed to the right.
 
 
 
@@ -127,17 +127,17 @@ boxPlot(heartTr$survtime, fact = heartTr$transplant,
 (a) Based on the mosaic plot, is survival independent of whether or not the 
 patient got a transplant? Explain your reasoning.
         
-        No, it appears survival is dependent on whether the patient recieved a transplant. The control groups area appears to be significantly taller than the treatment group, the opposite is true for the survival areas. It is noted that many more people appear to be in treatment group than the control group, which may cause some issues with determining whether the treatment has a significant affect on survival rate.
+        No, survival appears to depend on whether the patient recieved a transplant or not. The area of those dead seems to be higher significantly from that of the control group and vice versa although the number of patients in the treatment group is higher than that of the control group. This could inturn affect the interpretation of the surival rates for the two groups.
         
 (b) What do the box plots below suggest about the efficacy (effectiveness) of the heart transplant treatment.
         
-        The heart transplant treatment significantly increases the survival time (days) for patients. it appears all measurements of the data (e.g. Q1, median, etc.) are significantly better for the treatment group than the control group.
+        The heart transplant treatment seems to increease the survival times in days for the patients.
         
 (c) What proportion of patients in the treatment group and what proportion of patients in the control group died?
         
         Treatment group = 65.22%
         Control group = 88.25%
-        Note: I used the heartTr data set in the OpenIntro package.
+        
         
 ```{r, stanford_data, eval=TRUE}
 library('openintro')
