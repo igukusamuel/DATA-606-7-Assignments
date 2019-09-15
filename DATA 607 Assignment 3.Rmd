@@ -1,0 +1,155 @@
+---
+title: "DATA 607 Assignment 3"
+author: "Samuel I Kigamba"
+date: "September 15, 2019"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, install stringr package, include=TRUE}
+#install.packages("stringr",repos='http://mirrors.nics.utk.edu/cran/')
+library(stringr)
+```
+
+3. Copy the introductory example. The vector name stores the extracted names.
+
+```{r, rawdata.intro, include=TRUE}
+raw.data <- "555-1239Moe Szyslak(636) 555-0113Burns, C. Montgomery555-6542Rev. Timothy Lovejoy555 8904Ned Flanders636-555-3226Simpson,Homer5553642Dr. Julius Hibbert"
+
+name <- unlist(str_extract_all(raw.data, "[[:alpha:]., ]{2,}"))
+name
+
+phone <- unlist(str_extract_all(raw.data, "\\(?(\\d{3})?\\)?(-| )?\\d{3}(-| )?\\d{4}"))
+phone
+
+data.frame(name = name, phone = phone)
+```
+
+(a) Use the tools of this chapter to rearrange the vector so that all elements conform to
+the standard first_name last_name.
+
+```{r, extract first name, last name, include=TRUE}
+
+# First name for strings with commas
+firtcomma <- str_trim(str_sub(name, start = str_locate(name, ",")[,1] + 1, end = str_length(name)))
+
+# Last name for strings with commas
+lastcomma <- str_trim(str_sub(name, start = 1, end = str_locate(name, ",")[,1] - 1))
+
+# First name for strings without commas and a single space
+firstspace <- str_sub(name, start = 1, end = str_locate(name, " ")[,1] - 1)
+
+# Last name for strings without commas and a single space
+lastspace <- str_sub(name, start = str_locate(name, " ")[,1] + 1, end = str_length(name))
+
+# Everything after the first space for all strings
+afterspace <- str_sub(name, start = str_locate(name, " ")[,1] + 1, end = str_length(name))
+
+# Extract First_Name
+firstname <- ifelse(str_detect(name, ","), firtcomma, ifelse(str_count(name, " ") == 2, ifelse(str_detect(afterspace, " "), str_sub(afterspace, start = 1, end = str_locate(afterspace, " ")[,1] - 1), afterspace), firstspace))
+
+# Extract_Last_Name
+lastname <- ifelse(str_detect(name, ","), lastcomma, ifelse(str_count(name, " ") == 2, ifelse(str_detect(afterspace, " "), str_sub(afterspace, start = str_locate(afterspace, " ")[,1] + 1, end = str_length(afterspace)), afterspace), lastspace))
+
+# Formatted name
+fullname <- str_c(firstname, " ", lastname)
+fullname
+```
+
+(b) Construct a logical vector indicating whether a character has a title (i.e., Rev. and
+Dr.).
+
+```{r, check for titles,include=TRUE}
+
+# search for the presence of a title
+str_detect(name, "Maid|Madam|Mx.|Ms.|Miss|Mrs.|Mr.|Mister|Rev.|Reverend|Dr.|Doctor|Prof.|Professor|Father|Hon.|Honorable|Pres.|President|Gov.|Governer|Msgr.|Monsignor|Sen.|Senator")
+```
+
+(c) Construct a logical vector indicating whether a character has a second name.
+
+```{r, check characters for a second name, include=TRUE}
+
+name_count <- name
+
+str_count(str_trim(str_replace_all(name_count, "Maid|Madam|Mx.|Ms.|Miss|Mrs.|Mr.|Mister|Rev.|Reverend|Dr.|Doctor|Prof.|Professor|Father|Hon.|Honorable|Pres.|President|Gov.|Governer|Msgr.|Monsignor|Sen.|Senator", "")), " ") > 1
+```
+
+
+4. Describe the types of strings that conform to the following regular expressions and
+construct an example that is matched by the regular expression.
+
+(a) [0-9]+\\$
+
+```{r, extract ammount and currency, echo=TRUE}
+amount <- "This laptop cost 999$ after a 20% discount from the manufacturer."
+cost <- (unlist(str_extract_all(amount, "[0-9]+\\$")))
+cost
+```
+
+
+(b) \\b[a-z]{1,4}\\b
+
+
+```{r, extract all lowercase words of length 1-4, echo=TRUE}
+amount <- "This laptop cost 999$ after a 20% discount from the manufacturer."
+item <- (unlist(str_extract_all(amount, "\\b[a-z]{1,4}\\b")))
+item
+```
+
+(c) .*?\\.txt$
+
+
+```{r, extract txt, echo=TRUE}
+# Create example strings that end in .txt
+t <- c(".txt","alpha.txt","test.txt", "huge.txt", "99999.txt")
+
+unlist(str_extract_all(t, ".*?\\.txt$"))
+```
+
+
+(d) \\d{2}/\\d{2}/\\d{4}
+
+```{r, extract date, echo=TRUE}
+amount <- "This laptop cost 999$ after a 20% discount from the manufacturer. The date of manufacture is noted as 12/12/2019 although the actual assembly date was 12/12/2020."
+item <- (unlist(str_extract_all(amount, "\\d{2}/\\d{2}/\\d{4}")))
+item
+```
+
+
+(e) <(.+?)>.+?</\\1>
+
+```{r, extract upto first instance of occurence, echo=TRUE}
+# Create example strings of a HTML nature
+t <- c("<h1>Report Heading</h1>","<h1></h1>","<p>S. Kigamba<br>89 Born<br>Sydney</p>","<img src='school.gif' alt='School library' height='20' width='60'>")
+unlist(str_extract_all(t, "<(.+?)>.+?</\\1>"))
+```
+
+
+
+9. The following code hides a secret message. Crack it with R and regular expressions.
+Hint: Some of the characters are more revealing than others! The code snippet is also
+available in the materials at www.r-datacollection.com.
+
+```{r, data.extract, echo=TRUE}
+rawdata <- ("clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0Tanwo
+Uwisdij7Lj8kpf03AT5Idr3coc0bt7yczjatOaootj55t3Nj3ne6c4Sfek.r1w1YwwojigO
+d6vrfUrbz2.2bkAnbhzgv4R9i05zEcrop.wAgnb.SqoU65fPa1otfb7wEm24k6t3sR9zqe5
+fy89n6Nd5t9kc4fE905gmc4Rgxo5nhDk!gr")
+```
+
+```{r, extract message, echo=TRUE}
+message <- unlist(str_extract_all(rawdata, "[[:upper:].]"))
+combine <- paste(message, collapse = '')
+secret_message <- str_replace_all(combine, "\\.", " ")
+secret_message
+```
+
+
+
+
+
