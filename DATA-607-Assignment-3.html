@@ -185,9 +185,7 @@ summary {
 </div>
 
 
-<pre class="r"><code>#install.packages(&quot;stringr&quot;,repos='http://mirrors.nics.utk.edu/cran/')
-library(stringr)</code></pre>
-<pre><code>## Warning: package 'stringr' was built under R version 3.5.3</code></pre>
+<p>install.packages(“stringr”,repos=‘<a href="http://mirrors.nics.utk.edu/cran/" class="uri">http://mirrors.nics.utk.edu/cran/</a>’) library(stringr)</p>
 <ol start="3" style="list-style-type: decimal">
 <li>Copy the introductory example. The vector name stores the extracted names.</li>
 </ol>
@@ -212,16 +210,16 @@ phone</code></pre>
 <ol style="list-style-type: lower-alpha">
 <li>Use the tools of this chapter to rearrange the vector so that all elements conform to the standard first_name last_name.</li>
 </ol>
-<pre class="r"><code># First name for strings with commas
+<pre class="r"><code># First name - strings with commas
 firtcomma &lt;- str_trim(str_sub(name, start = str_locate(name, &quot;,&quot;)[,1] + 1, end = str_length(name)))
 
-# Last name for strings with commas
-lastcomma &lt;- str_trim(str_sub(name, start = 1, end = str_locate(name, &quot;,&quot;)[,1] - 1))
-
-# First name for strings without commas and a single space
+# First name - strings without commas and a single space
 firstspace &lt;- str_sub(name, start = 1, end = str_locate(name, &quot; &quot;)[,1] - 1)
 
-# Last name for strings without commas and a single space
+# Last name - strings with commas
+lastcomma &lt;- str_trim(str_sub(name, start = 1, end = str_locate(name, &quot;,&quot;)[,1] - 1))
+
+# Last name - strings without commas and a single space
 lastspace &lt;- str_sub(name, start = str_locate(name, &quot; &quot;)[,1] + 1, end = str_length(name))
 
 # Everything after the first space for all strings
@@ -255,42 +253,48 @@ str_count(str_trim(str_replace_all(name_count, &quot;Maid|Madam|Mx.|Ms.|Miss|Mrs
 <li>Describe the types of strings that conform to the following regular expressions and construct an example that is matched by the regular expression.</li>
 </ol>
 <ol style="list-style-type: lower-alpha">
-<li>[0-9]+\$</li>
+<li><p>[0-9]+\$</p>
+<pre><code>This expressions extracts digits/numerals from 0-9 followed by a dollar sign $.</code></pre></li>
 </ol>
 <pre class="r"><code>amount &lt;- &quot;This laptop cost 999$ after a 20% discount from the manufacturer.&quot;
 cost &lt;- (unlist(str_extract_all(amount, &quot;[0-9]+\\$&quot;)))
 cost</code></pre>
 <pre><code>## [1] &quot;999$&quot;</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
-<li>\b[a-z]{1,4}\b</li>
+<li><p>\b[a-z]{1,4}\b</p>
+<pre><code>This expression extracts all words that are both lowercase and have a maximum length of 4 characters and a minimum of 1 character.</code></pre></li>
 </ol>
 <pre class="r"><code>amount &lt;- &quot;This laptop cost 999$ after a 20% discount from the manufacturer.&quot;
 item &lt;- (unlist(str_extract_all(amount, &quot;\\b[a-z]{1,4}\\b&quot;)))
 item</code></pre>
 <pre><code>## [1] &quot;cost&quot; &quot;a&quot;    &quot;from&quot; &quot;the&quot;</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
-<li>.*?\.txt$</li>
+<li><p>.*?\.txt$</p>
+<pre><code>This expression extracts all statements ending in .txt preceded by any number of characters or none.
+note that the statement &quot;txt&quot; without the period (.) does not print out.</code></pre></li>
 </ol>
 <pre class="r"><code># Create example strings that end in .txt
-t &lt;- c(&quot;.txt&quot;,&quot;alpha.txt&quot;,&quot;test.txt&quot;, &quot;huge.txt&quot;, &quot;99999.txt&quot;)
+t &lt;- c(&quot;..txt&quot;, &quot;txt&quot;, &quot;.txt&quot;,&quot;alpha.txt&quot;,&quot;test.txt&quot;, &quot;huge.txt&quot;, &quot;99999.txt&quot;)
 
 unlist(str_extract_all(t, &quot;.*?\\.txt$&quot;))</code></pre>
-<pre><code>## [1] &quot;.txt&quot;      &quot;alpha.txt&quot; &quot;test.txt&quot;  &quot;huge.txt&quot;  &quot;99999.txt&quot;</code></pre>
+<pre><code>## [1] &quot;..txt&quot;     &quot;.txt&quot;      &quot;alpha.txt&quot; &quot;test.txt&quot;  &quot;huge.txt&quot;  &quot;99999.txt&quot;</code></pre>
 <ol start="4" style="list-style-type: lower-alpha">
-<li>\d{2}/\d{2}/\d{4}</li>
+<li><p>\d{2}/\d{2}/\d{4}</p>
+<pre><code>This expression extracts dates of the format xx/xx/xxxx.</code></pre></li>
 </ol>
 <pre class="r"><code>amount &lt;- &quot;This laptop cost 999$ after a 20% discount from the manufacturer. The date of manufacture is noted as 12/12/2019 although the actual assembly date was 12/12/2020.&quot;
 item &lt;- (unlist(str_extract_all(amount, &quot;\\d{2}/\\d{2}/\\d{4}&quot;)))
 item</code></pre>
 <pre><code>## [1] &quot;12/12/2019&quot; &quot;12/12/2020&quot;</code></pre>
 <ol start="5" style="list-style-type: lower-alpha">
-<li>&lt;(.+?)&gt;.+?&lt;/\1&gt;</li>
+<li><p>&lt;(.+?)&gt;.+?&lt;/\1&gt;</p>
+<pre><code>This expression extracts HTML tagged lines that opens in &lt;&gt; and closes with &lt;/&gt;. Any HTML tag that doesnt close in &lt;/&gt; will not be extracted. An image tag would not print out.</code></pre></li>
 </ol>
 <pre class="r"><code># Create example strings of a HTML nature
-t &lt;- c(&quot;&lt;h1&gt;Report Heading&lt;/h1&gt;&quot;,&quot;&lt;h1&gt;&lt;/h1&gt;&quot;,&quot;&lt;p&gt;S. Kigamba&lt;br&gt;89 Born&lt;br&gt;Sydney&lt;/p&gt;&quot;,&quot;&lt;img src='school.gif' alt='School library' height='20' width='60'&gt;&quot;)
+t &lt;- c(&quot;&lt;h1&gt;Report Heading&lt;/h1&gt;&quot;,&quot;&lt;h1&gt;&lt;/h1&gt;&quot;,&quot;&lt;p&gt;S. Kigamba&lt;br&gt;89 Born&lt;br&gt;Kenya&lt;/p&gt;&quot;,&quot;&lt;img src='school.gif' alt='School library' height='20' width='60'&gt;&quot;)
 unlist(str_extract_all(t, &quot;&lt;(.+?)&gt;.+?&lt;/\\1&gt;&quot;))</code></pre>
-<pre><code>## [1] &quot;&lt;h1&gt;Report Heading&lt;/h1&gt;&quot;               
-## [2] &quot;&lt;p&gt;S. Kigamba&lt;br&gt;89 Born&lt;br&gt;Sydney&lt;/p&gt;&quot;</code></pre>
+<pre><code>## [1] &quot;&lt;h1&gt;Report Heading&lt;/h1&gt;&quot;              
+## [2] &quot;&lt;p&gt;S. Kigamba&lt;br&gt;89 Born&lt;br&gt;Kenya&lt;/p&gt;&quot;</code></pre>
 <ol start="9" style="list-style-type: decimal">
 <li>The following code hides a secret message. Crack it with R and regular expressions. Hint: Some of the characters are more revealing than others! The code snippet is also available in the materials at www.r-datacollection.com.</li>
 </ol>
@@ -300,6 +304,7 @@ d6vrfUrbz2.2bkAnbhzgv4R9i05zEcrop.wAgnb.SqoU65fPa1otfb7wEm24k6t3sR9zqe5
 fy89n6Nd5t9kc4fE905gmc4Rgxo5nhDk!gr&quot;)</code></pre>
 <pre class="r"><code>message &lt;- unlist(str_extract_all(rawdata, &quot;[[:upper:].]&quot;))
 combine &lt;- paste(message, collapse = '')
+#combine
 secret_message &lt;- str_replace_all(combine, &quot;\\.&quot;, &quot; &quot;)
 secret_message</code></pre>
 <pre><code>## [1] &quot;CONGRATULATIONS YOU ARE A SUPERNERD&quot;</code></pre>

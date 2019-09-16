@@ -3,15 +3,18 @@ title: "DATA 607 Assignment 3"
 author: "Samuel I Kigamba"
 date: "September 15, 2019"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, install stringr package, include=TRUE}
+install.packages("stringr",repos='http://mirrors.nics.utk.edu/cran/')
+library(stringr)
+
+```{r, install stringr package, include=FALSE}
 #install.packages("stringr",repos='http://mirrors.nics.utk.edu/cran/')
 library(stringr)
 ```
@@ -30,21 +33,20 @@ phone
 data.frame(name = name, phone = phone)
 ```
 
-(a) Use the tools of this chapter to rearrange the vector so that all elements conform to
-the standard first_name last_name.
+(a) Use the tools of this chapter to rearrange the vector so that all elements conform to the standard first_name last_name.
 
 ```{r, extract first name, last name, include=TRUE}
 
-# First name for strings with commas
+# First name - strings with commas
 firtcomma <- str_trim(str_sub(name, start = str_locate(name, ",")[,1] + 1, end = str_length(name)))
 
-# Last name for strings with commas
-lastcomma <- str_trim(str_sub(name, start = 1, end = str_locate(name, ",")[,1] - 1))
-
-# First name for strings without commas and a single space
+# First name - strings without commas and a single space
 firstspace <- str_sub(name, start = 1, end = str_locate(name, " ")[,1] - 1)
 
-# Last name for strings without commas and a single space
+# Last name - strings with commas
+lastcomma <- str_trim(str_sub(name, start = 1, end = str_locate(name, ",")[,1] - 1))
+
+# Last name - strings without commas and a single space
 lastspace <- str_sub(name, start = str_locate(name, " ")[,1] + 1, end = str_length(name))
 
 # Everything after the first space for all strings
@@ -85,7 +87,9 @@ construct an example that is matched by the regular expression.
 
 (a) [0-9]+\\$
 
-```{r, extract ammount and currency, echo=TRUE}
+        This expressions extracts digits/numerals from 0-9 followed by a dollar sign $.
+
+```{r, extract digits followed by a dollar sign, echo=TRUE}
 amount <- "This laptop cost 999$ after a 20% discount from the manufacturer."
 cost <- (unlist(str_extract_all(amount, "[0-9]+\\$")))
 cost
@@ -94,6 +98,7 @@ cost
 
 (b) \\b[a-z]{1,4}\\b
 
+        This expression extracts all words that are both lowercase and have a maximum length of 4 characters and a minimum of 1 character.
 
 ```{r, extract all lowercase words of length 1-4, echo=TRUE}
 amount <- "This laptop cost 999$ after a 20% discount from the manufacturer."
@@ -103,16 +108,20 @@ item
 
 (c) .*?\\.txt$
 
-
+        This expression extracts all statements ending in .txt preceded by any number of characters or none.
+        note that the statement "txt" without the period (.) does not print out.
+        
 ```{r, extract txt, echo=TRUE}
 # Create example strings that end in .txt
-t <- c(".txt","alpha.txt","test.txt", "huge.txt", "99999.txt")
+t <- c("..txt", "txt", ".txt","alpha.txt","test.txt", "huge.txt", "99999.txt")
 
 unlist(str_extract_all(t, ".*?\\.txt$"))
 ```
 
 
 (d) \\d{2}/\\d{2}/\\d{4}
+
+        This expression extracts dates of the format xx/xx/xxxx.
 
 ```{r, extract date, echo=TRUE}
 amount <- "This laptop cost 999$ after a 20% discount from the manufacturer. The date of manufacture is noted as 12/12/2019 although the actual assembly date was 12/12/2020."
@@ -123,9 +132,11 @@ item
 
 (e) <(.+?)>.+?</\\1>
 
+        This expression extracts HTML tagged lines that opens in <> and closes with </>. Any HTML tag that doesnt close in </> will not be extracted. An image tag would not print out.
+
 ```{r, extract upto first instance of occurence, echo=TRUE}
 # Create example strings of a HTML nature
-t <- c("<h1>Report Heading</h1>","<h1></h1>","<p>S. Kigamba<br>89 Born<br>Sydney</p>","<img src='school.gif' alt='School library' height='20' width='60'>")
+t <- c("<h1>Report Heading</h1>","<h1></h1>","<p>S. Kigamba<br>89 Born<br>Kenya</p>","<img src='school.gif' alt='School library' height='20' width='60'>")
 unlist(str_extract_all(t, "<(.+?)>.+?</\\1>"))
 ```
 
@@ -145,6 +156,7 @@ fy89n6Nd5t9kc4fE905gmc4Rgxo5nhDk!gr")
 ```{r, extract message, echo=TRUE}
 message <- unlist(str_extract_all(rawdata, "[[:upper:].]"))
 combine <- paste(message, collapse = '')
+#combine
 secret_message <- str_replace_all(combine, "\\.", " ")
 secret_message
 ```

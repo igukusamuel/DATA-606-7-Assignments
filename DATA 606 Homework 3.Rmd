@@ -42,25 +42,30 @@ poverty<- .146
 lang_other<-.207
 both<- .042
 
+install.packages("VennDiagram")
+install.packages("formattable")
+library(VennDiagram)
+library(xtable)
+library(formattable)
 
-```{r, ven diagram data, include=TRUE}
+```{r, ven diagram data, include=FALSE}
 #install.packages("VennDiagram")
 #install.packages("formattable")
 library(VennDiagram)
 library(xtable)
 library(formattable)
-
 ```
 
 (a) Are living below the poverty line and speaking a foreign language at home disjoint?
 
-        No. There are those who speak a foreign language at home and live below poverty line.
+        No. There are those who speak a foreign language at home and live below poverty line. There are more Americans who speak a foreign language at home than those who live below         the poverty line.
 
 (b) Draw a Venn diagram summarizing the variables and their associated probabilities.
 
 ```{r, draw_ven_diagram, include=TRUE}
 grid.newpage()
-draw.pairwise.venn(14.6, 20.7, 4.2, category = c("Poverty", "Other Language"), lty = rep("blank",2), fill = c("blue", "red"), alpha = rep(0.5, 2), cat.pos = c(0, 0), cat.dist = rep(0.025, 2))
+draw.pairwise.venn(14.6, 20.7, 4.2, category = c("Poverty", "Other Language"), lty = rep("blank",2), fill = c("green", "yellow"), alpha = rep(0.5, 2), cat.pos = c(0, 0), cat.dist = rep(0.025, 2))
+
 ```
 
 (c) What percent of Americans live below the poverty line and only speak English at home?
@@ -80,9 +85,7 @@ draw.pairwise.venn(14.6, 20.7, 4.2, category = c("Poverty", "Other Language"), l
         P(Poverty|Engish) = 10.4 /(69.9+10.4) = 0.1295143 
         P(Poverty|NonEnglish) = 4.2 / (16.5 + 4.2) = 0.2028986
 
-        There is a higher probability of being in Poverty given NonEnglish @ (20.3%) versus Poverty given English @ (12.9%), thus these events are         dependednt. we expect similar results for independed events.
-
-
+        There is a higher probability of being in Poverty given NonEnglish @ (20.3%) versus Poverty given English @ (12.9%), thus these events are dependednt. we would expect                similar results for independed events.
 
 
 --------------------------------------------------------------------------------
@@ -120,6 +123,9 @@ both_blue <- 78 / 204
 both_green <- 16 / 204
 both_brown <- 23 / 204
 
+m_brown_f_blue <- 19 / 204
+m_green_f_blue <- 11 / 204
+
 ```
 
 
@@ -144,19 +150,6 @@ m_blue_both_blue
 (c) What is the probability that a randomly chosen male respondent with brown eyes has a partner with blue eyes? 
 
 ```{r, prob brown male and blue partner, include=TRUE}
-f_blue <- 108 / 204
-f_green <- 41 / 204
-f_brown <- 55 / 204
-
-m_blue <- 114 / 204
-m_green <- 36 / 204
-m_brown <- 54 / 204
-
-both_blue <- 78 / 204
-both_green <- 16 / 204
-both_brown <- 23 / 204
-
-m_brown_f_blue <- 19 / 204
 
 P_m_brown_f_blue <- m_brown_f_blue/m_brown
 P_m_brown_f_blue
@@ -167,19 +160,6 @@ What about the probability of a randomly chosen male respondent with green eyes 
 
 
 ```{r, prob green male and blue partner, include=TRUE}
-f_blue <- 108 / 204
-f_green <- 41 / 204
-f_brown <- 55 / 204
-
-m_blue <- 114 / 204
-m_green <- 36 / 204
-m_brown <- 54 / 204
-
-both_blue <- 78 / 204
-both_green <- 16 / 204
-both_brown <- 23 / 204
-
-m_green_f_blue <- 11 / 204
 
 p_m_green_f_blue <- m_green_f_blue/m_green
 p_m_green_f_blue
@@ -188,8 +168,8 @@ p_m_green_f_blue
 
 (d) Does it appear that the eye colors of male respondents and their partners are independent? Explain your reasoning.
 
-  if the two events were independent we would expect to see similar proportions between the eye colors of both partners but this is not the case.
-  We thus conclude that these events are not independent.
+        if the two events were independent we would expect to see similar proportions between the eye colors of both partners but this is not the case.
+        We thus conclude that these events are not independent.
 
 
 
@@ -197,8 +177,7 @@ p_m_green_f_blue
 
 \clearpage
 
-**Books on a bookshelf**. (3.26, p. 114) The table below shows the distribution of books on a bookcase
-based on whether they are nonfiction or fiction and hardcover or paperback.
+**Books on a bookshelf**. (3.26, p. 114) The table below shows the distribution of books on a bookcase based on whether they are nonfiction or fiction and hardcover or paperback.
 
 \begin{center}
 \begin{tabular}{ll  cc c}
@@ -217,25 +196,36 @@ based on whether they are nonfiction or fiction and hardcover or paperback.
 
 
 
+```{r, probs, include=TRUE}
+total <- 95
+prob_Fic <- 72 / total
+prob_NonFic <- 23 / total
+prob_Hc <- 28 / total
+Prob_Pb <- 67 / total
+prob_Hc_Fic <- 13 / total
+prob_Hc_NonFic <- 15 / total
+prob_pb_fict <- 59 / total
+prob_pb_Nonfict <- 8
+no_rep_total <- total - 1 # Without replacment, we removed 1 book
+
+```
+
+
 (a) Find the probability of drawing a hardcover book first then a paperback fiction book second when drawing without replacement.
 
 ```{r, prob Hc then Pb_fict, include=TRUE}
-total <- 95
-prob_Hc <- 28 / total
-no_rep_total <- total - 1 # Without replacment, we removed 1 book
-prob_pb_fict <- 59 / no_rep_total
-final <- prob_Hc * prob_pb_fict
+# Without replacment, we removed 1 book
+prob_pb_fict_NoRep <- 59 / no_rep_total
+final <- prob_Hc * prob_pb_fict_NoRep
 final
 ```
 
 (b) Determine the probability of drawing a fiction book first and then a hardcover book second, when drawing without replacement.
 
 ```{r, prob fic_then_Hc book no replacement, include=TRUE}
-total <- 95
-prob_fict <- 72 / total
-no_rep_total <- total - 1 # Without replacment, we removed 1 book
+# Without replacment, we removed 1 book
 prob_Hc <- 28 / no_rep_total
-final <- prob_fict * prob_Hc
+final <- prob_Fic * prob_Hc
 final
 ```
 
@@ -243,18 +233,16 @@ final
 
 
 ```{r, prob fic_then_Hc book with replacement, include=TRUE}
-total <- 95
-prob_fict <- 72 / total
-no_rep_total <- total # With replacment, we put back the first book
-prob_Hc <- 28 / no_rep_total
-final <- prob_fict * prob_Hc
+# With replacment, we put back the first book
+prob_Hc <- 28 / total
+final <- prob_Fic * prob_Hc
 final
+
 ```
 
 (d) The final answers to parts (b) and (c) are very similar. Explain why this is the case.
 
-        we have a sample size of 95 which is large enough. the loss of 1 book means that only 1% is lost which is not significant enough to               adversely affect the sample.
-
+        we have a sample size of 95 which is large enough. the loss of 1 book means that only 1% is lost which is not significant enough to change the outcome by a big change.
 
 
 --------------------------------------------------------------------------------
@@ -265,10 +253,10 @@ final
 
 (a) Build a probability model, compute the average revenue per passenger, and compute the corresponding standard deviation.
 
-```{r, prob model, include=TRUE}
+```{r, prob_model, include=TRUE}
 fees <- c(0, 25, 35)
-portions <- c(0.54, 0.34, 0.12)
-model <- fees * portions
+proportion <- c(0.54, 0.34, 0.12)
+model <- fees * proportion
 
 mean(model)
 
@@ -280,7 +268,9 @@ sd(model)
 
 ```{r, expected revenues, include=TRUE}
 
-sum(model*120)
+sum(model*120) 
+# with a deviation of: 
+120*sd(model)
 
 ```
 
@@ -312,6 +302,7 @@ sum(model*120)
 (a) Describe the distribution of total personal income.
 
 ```{r, income vs gender, include=TRUE}
+
 inc <- c(5, 12.5, 20, 29.5, 42.5, 57.5, 70, 88, 110)
 tot <- c(0.022, 0.047, 0.158, 0.183, 0.212, 0.139, 0.058, 0.084, 0.097)
 
@@ -323,7 +314,8 @@ barplot(tot, inc)
 (b) What is the probability that a randomly chosen US resident makes less than $50,000 per year?
 
 ```{r, prob of random us citizen making less than $50k pa, include=TRUE}
-sum(tot)       # Should add up to 100% (minor differences might be due to rounding off errors)
+
+sum(tot) # Should add up to 100% (minor differences might be due to rounding off errors)
 
 p_earn_less_than_50 <- sum(tot[0:5])  # sum the first 5 probabilities to get the prob of making less than 50k
 p_earn_less_than_50
