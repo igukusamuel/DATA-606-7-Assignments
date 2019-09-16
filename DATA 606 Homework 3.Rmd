@@ -65,15 +65,15 @@ draw.pairwise.venn(14.6, 20.7, 4.2, category = c("Poverty", "Other Language"), l
 
 (c) What percent of Americans live below the poverty line and only speak English at home?
 
-        P(Poverty) ??? P(Poverty and Foreign) = 14.6 ??? 4.2 = 10.4%
-
+        P(Poverty) - P(Poverty and Foreign) = 14.6 - 4.2 = 10.4%
+        
 (d) What percent of Americans live below the poverty line or speak a foreign language at home?
 
-        P(Poverty) + P(Foreign) ??? P(Poverty and Foreign) = 14.6 + 20.7 ??? 4.2 = 31.1%
+        P(Poverty) + P(Foreign) - P(Poverty and Foreign) = 14.6 + 20.7 - 4.2 = 31.1%
 
 (e) What percent of Americans live above the poverty line and only speak English at home?
 
-        P(English and NoPoverty)= 100 ??? P(Povery) + P(Other) ??? P(Poverty and Other) = 100 ??? (20.7 + 14.6 ??? 4.2) = 68.9
+        P(English and NoPoverty)= 100 - P(Povery) + P(Other) - P(Poverty and Other) = 100 - (20.7 + 14.6 - 4.2) = 68.9
 
 (f) Is the event that someone lives below the poverty line independent of the event that the person speaks a foreign language at home?
 
@@ -140,8 +140,29 @@ m_blue_both_blue <- both_blue/m_blue
 m_blue_both_blue
 
 ```
+ 
+(c) What is the probability that a randomly chosen male respondent with brown eyes has a partner with blue eyes? 
 
-(c) Whatistheprobabilitythatarandomlychosenmalerespondentwithbrowneyeshasapartner with blue eyes? 
+```{r, prob brown male and blue partner, include=TRUE}
+f_blue <- 108 / 204
+f_green <- 41 / 204
+f_brown <- 55 / 204
+
+m_blue <- 114 / 204
+m_green <- 36 / 204
+m_brown <- 54 / 204
+
+both_blue <- 78 / 204
+both_green <- 16 / 204
+both_brown <- 23 / 204
+
+m_brown_f_blue <- 19 / 204
+
+P_m_brown_f_blue <- m_brown_f_blue/m_brown
+P_m_brown_f_blue
+
+```
+
 What about the probability of a randomly chosen male respondent with green eyes having a partner with blue eyes?
 
 
@@ -158,8 +179,10 @@ both_blue <- 78 / 204
 both_green <- 16 / 204
 both_brown <- 23 / 204
 
-m_green_f_blue <- m_green * f_blue
-m_green_f_blue
+m_green_f_blue <- 11 / 204
+
+p_m_green_f_blue <- m_green_f_blue/m_green
+p_m_green_f_blue
 
 ```
 

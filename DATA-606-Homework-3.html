@@ -225,11 +225,11 @@ draw.pairwise.venn(14.6, 20.7, 4.2, category = c(&quot;Poverty&quot;, &quot;Othe
 <pre><code>## (polygon[GRID.polygon.1], polygon[GRID.polygon.2], polygon[GRID.polygon.3], polygon[GRID.polygon.4], text[GRID.text.5], text[GRID.text.6], text[GRID.text.7], text[GRID.text.8], text[GRID.text.9])</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li><p>What percent of Americans live below the poverty line and only speak English at home?</p>
-<pre><code>P(Poverty) ??? P(Poverty and Foreign) = 14.6 ??? 4.2 = 10.4%</code></pre></li>
+<pre><code>P(Poverty) - P(Poverty and Foreign) = 14.6 - 4.2 = 10.4%</code></pre></li>
 <li><p>What percent of Americans live below the poverty line or speak a foreign language at home?</p>
-<pre><code>P(Poverty) + P(Foreign) ??? P(Poverty and Foreign) = 14.6 + 20.7 ??? 4.2 = 31.1%</code></pre></li>
+<pre><code>P(Poverty) + P(Foreign) - P(Poverty and Foreign) = 14.6 + 20.7 - 4.2 = 31.1%</code></pre></li>
 <li><p>What percent of Americans live above the poverty line and only speak English at home?</p>
-<pre><code>P(English and NoPoverty)= 100 ??? P(Povery) + P(Other) ??? P(Poverty and Other) = 100 ??? (20.7 + 14.6 ??? 4.2) = 68.9</code></pre></li>
+<pre><code>P(English and NoPoverty)= 100 - P(Povery) + P(Other) - P(Poverty and Other) = 100 - (20.7 + 14.6 - 4.2) = 68.9</code></pre></li>
 <li><p>Is the event that someone lives below the poverty line independent of the event that the person speaks a foreign language at home?</p>
 <pre><code>P(Poverty|Engish) = 10.4 /(69.9+10.4) = 0.1295143 
 P(Poverty|NonEnglish) = 4.2 / (16.5 + 4.2) = 0.2028986
@@ -264,7 +264,7 @@ either_blue</code></pre>
 m_blue_both_blue</code></pre>
 <pre><code>## [1] 0.6842105</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
-<li>Whatistheprobabilitythatarandomlychosenmalerespondentwithbrowneyeshasapartner with blue eyes? What about the probability of a randomly chosen male respondent with green eyes having a partner with blue eyes?</li>
+<li>What is the probability that a randomly chosen male respondent with brown eyes has a partner with blue eyes?</li>
 </ol>
 <pre class="r"><code>f_blue &lt;- 108 / 204
 f_green &lt;- 41 / 204
@@ -278,9 +278,29 @@ both_blue &lt;- 78 / 204
 both_green &lt;- 16 / 204
 both_brown &lt;- 23 / 204
 
-m_green_f_blue &lt;- m_green * f_blue
-m_green_f_blue</code></pre>
-<pre><code>## [1] 0.09342561</code></pre>
+m_brown_f_blue &lt;- 19 / 204
+
+P_m_brown_f_blue &lt;- m_brown_f_blue/m_brown
+P_m_brown_f_blue</code></pre>
+<pre><code>## [1] 0.3518519</code></pre>
+<p>What about the probability of a randomly chosen male respondent with green eyes having a partner with blue eyes?</p>
+<pre class="r"><code>f_blue &lt;- 108 / 204
+f_green &lt;- 41 / 204
+f_brown &lt;- 55 / 204
+
+m_blue &lt;- 114 / 204
+m_green &lt;- 36 / 204
+m_brown &lt;- 54 / 204
+
+both_blue &lt;- 78 / 204
+both_green &lt;- 16 / 204
+both_brown &lt;- 23 / 204
+
+m_green_f_blue &lt;- 11 / 204
+
+p_m_green_f_blue &lt;- m_green_f_blue/m_green
+p_m_green_f_blue</code></pre>
+<pre><code>## [1] 0.3055556</code></pre>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Does it appear that the eye colors of male respondents and their partners are independent? Explain your reasoning.</li>
 </ol>
