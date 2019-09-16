@@ -2,13 +2,13 @@
 title: "Probability"
 author: "Samuel I Kigamba"
 output:
+  html_document:
+    df_print: paged
   pdf_document:
     extra_dependencies:
     - geometry
     - multicol
     - multirow
-  html_document:
-    df_print: paged
 Date: Sep 15, 2019
 ---
 
@@ -20,7 +20,9 @@ having a *hot hand*. Fans and players have long believed in the hot hand
 phenomenon, which refutes the assumption that each shot is independent of the 
 next. However, a 1985 paper by Gilovich, Vallone, and Tversky collected evidence
 that contradicted this belief and showed that successive shots are independent 
-events ([http://psych.cornell.edu/sites/default/files/Gilo.Vallone.Tversky.pdf](http://psych.cornell.edu/sites/default/files/Gilo.Vallone.Tversky.pdf)). This paper started a great controversy that continues to this day, as you can 
+events ([http://psych.cornell.edu/sites/default/files/Gilo.Vallone.Tversky.pdf]
+(http://psych.cornell.edu/sites/default/files/Gilo.Vallone.Tversky.pdf)). This 
+paper started a great controversy that continues to this day, as you can 
 see by Googling *hot hand basketball*.
 
 We do not expect to resolve this controversy today. However, in this lab we'll 
@@ -76,6 +78,7 @@ To verify this use the following command:
 
 ```{r first9, eval=TRUE}
 kobe$basket[1:9]
+
 ```
 
 Within the nine shot attempts, there are six streaks, which are separated by a 
@@ -106,7 +109,7 @@ discrete -- counts -- instead of continuous.
         
    What was his typical streak length? How long was his longest streak of baskets?
    
-        The typical streak length was a zero (0). The longest streak length was 4.
+        The typical streak length was a zero (0) having the most entries. The longest streak length was 4.
 
 ## Compared to What?
 
@@ -187,6 +190,7 @@ To view the results of this simulation, type the name of the object and then use
 ```{r table-sim-fair-coin, eval=TRUE}
 #sim_fair_coin
 table(sim_fair_coin)
+
 ```
 
 Since there are only two elements in `outcomes`, the probability that we "flip" 
@@ -196,6 +200,7 @@ an argument called `prob`, which provides a vector of two probability weights.
 
 ```{r sim-unfair-coin, eval=TRUE}
 sim_unfair_coin <- sample(outcomes, size = 100, replace = TRUE, prob = c(0.2, 0.8))
+
 ```
 
 `prob=c(0.2, 0.8)` indicates that for the two elements in the `outcomes` vector,
@@ -208,7 +213,9 @@ chip that says "head"" is 20%, and "tail" is 80%.
 3.  In your simulation of flipping the unfair coin 100 times, how many flips 
     came up heads?
     
-    48 heads, 52 tails
+```{r sim-unfair-coin_table, eval=TRUE}
+table(sim_unfair_coin)
+```
 
 In a sense, we've shrunken the size of the slip of paper that says "heads", 
 making it less likely to be drawn and we've increased the size of the slip of 
@@ -260,6 +267,7 @@ alongside our simulated data.
 ```{r compare-basket, eval=TRUE}
 kobe$basket
 sim_basket
+
 ```
 
 Both data sets represent the results of 133 shot attempts, each with the same 
@@ -274,8 +282,8 @@ a hot hand.
 ### Comparing Kobe Bryant to the Independent Shooter
 
 Using `calc_streak`, compute the streak lengths of `sim_basket`.
-load library mosaic set eval = TRUE and include = FALSE to prevent printout.
 
+load library mosaic set eval = TRUE and include = FALSE to prevent printout.
 install.packages("mosaic")
 library(mosaic)
 
@@ -286,14 +294,14 @@ library(mosaic)
 
 ```{r calc-streak-sim_basket, eval=TRUE}
 sim_basket_streak <- calc_streak(sim_basket)
-
 barplot(table(sim_basket_streak))
+
 ```
 
 -   Describe the distribution of streak lengths. What is the typical streak 
     length for this simulated independent shooter with a 45% shooting percentage?
     
-    The independent shooter has a typical shoting streak of zero (0). The streak distribution is unimodal having only one prominent peak and is         skewed to the right with a long right tail.
+    The independent shooter has a typical shoting streak of zero (0) and one. The streak distribution is unimodal having only one prominent peak and is skewed to the right with a         long right tail.
     
    How long is the player's longest streak of baskets in 133 shots?
    
@@ -305,7 +313,7 @@ barplot(table(sim_basket_streak))
     from the question above? Exactly the same? Somewhat similar? Totally 
     different? Explain your reasoning.
     
-    Running the simulation for the independent sahooter a second time would yield somewhat similar results since this is a randon simulation. We         have set the seed value with set.seed(76) to ensure replicable pseudorandom results, for replicability of out test. 
+    Running the simulation for the independent sahooter a second time would yield somewhat similar results since this is a randon simulation. We have set the seed value with                 set.seed(76) to ensure replicable pseudorandom results, for replicability of out test. 
     
 
 -   How does Kobe Bryant's distribution of streak lengths compare to the 
@@ -316,7 +324,7 @@ barplot(table(sim_basket_streak))
    Using this comparison, do you have evidence that the hot hand model fits Kobe's 
    shooting patterns? Explain.
     
-    There is no evidence to support that the hot hand model fits kobe's shooting patterns since both models are somewhat similar.
+    There is no evidence to support that the hot hand model fits kobe's shooting patterns since both models are somewhat similar to those of an independ shooter.
     
     
 ```{r, streak lengths, include=TRUE}
