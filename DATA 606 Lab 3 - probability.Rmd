@@ -2,13 +2,13 @@
 title: "Probability"
 author: "Samuel I Kigamba"
 output:
-  html_document:
-    df_print: paged
   pdf_document:
     extra_dependencies:
     - geometry
     - multicol
     - multirow
+  html_document:
+    df_print: paged
 Date: Sep 15, 2019
 ---
 
@@ -221,7 +221,7 @@ If you want to learn more about `sample` or any other function, recall that you
 can always check out its help file.
 
 ```{r help-sample, eval=TRUE,tidy = FALSE}
-?sample
+#?sample
 ```
 
 ## Simulating the Independent Shooter

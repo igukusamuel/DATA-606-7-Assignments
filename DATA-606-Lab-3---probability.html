@@ -248,7 +248,7 @@ barplot(table(kobe_streak))</code></pre>
 <p>While we don’t have any data from a shooter we know to have independent shots, that sort of data is very easy to simulate in R. In a simulation, you set the ground rules of a random process and then the computer uses random numbers to generate an outcome that adheres to those rules. As a simple example, you can simulate flipping a fair coin with the following.</p>
 <pre class="r"><code>outcomes &lt;- c(&quot;heads&quot;, &quot;tails&quot;)
 sample(outcomes, size = 1, replace = TRUE)</code></pre>
-<pre><code>## [1] &quot;tails&quot;</code></pre>
+<pre><code>## [1] &quot;heads&quot;</code></pre>
 <p>The vector <code>outcomes</code> can be thought of as a hat with two slips of paper in it: one slip says <code>heads</code> and the other says <code>tails</code>. The function <code>sample</code> draws one slip from the hat and tells us if it was a head or a tail.</p>
 <p>Run the second command listed above several times. Just like when flipping a coin, sometimes you’ll get a heads, sometimes you’ll get a tails, but in the long run, you’d expect to get roughly equal numbers of each.</p>
 <p>If you wanted to simulate flipping a fair coin 100 times, you could either run the function 100 times or, more simply, adjust the <code>size</code> argument, which governs how many samples to draw (the <code>replace = TRUE</code> argument indicates we put the slip of paper back in the hat before drawing again). Save the resulting vector of heads and tails in a new object called <code>sim_fair_coin</code>.</p>
@@ -258,7 +258,7 @@ sample(outcomes, size = 1, replace = TRUE)</code></pre>
 table(sim_fair_coin)</code></pre>
 <pre><code>## sim_fair_coin
 ## heads tails 
-##    35    65</code></pre>
+##    44    56</code></pre>
 <p>Since there are only two elements in <code>outcomes</code>, the probability that we “flip” a coin and it lands heads is 0.5. Say we’re trying to simulate an unfair coin that we know only lands heads 20% of the time. We can adjust for this by adding an argument called <code>prob</code>, which provides a vector of two probability weights.</p>
 <pre class="r"><code>sim_unfair_coin &lt;- sample(outcomes, size = 100, replace = TRUE, prob = c(0.2, 0.8))</code></pre>
 <p><code>prob=c(0.2, 0.8)</code> indicates that for the two elements in the <code>outcomes</code> vector, we want to select the first one, <code>heads</code>, with probability 0.2 and the second one, <code>tails</code> with probability 0.8. Another way of thinking about this is to think of the outcome space as a bag of 10 chips, where 2 chips are labeled “head” and 8 chips “tail”. Therefore at each draw, the probability of drawing a chip that says “head”&quot; is 20%, and “tail” is 80%.</p>
@@ -268,8 +268,7 @@ table(sim_fair_coin)</code></pre>
 </ol>
 <p>In a sense, we’ve shrunken the size of the slip of paper that says “heads”, making it less likely to be drawn and we’ve increased the size of the slip of paper saying “tails”, making it more likely to be drawn. When we simulated the fair coin, both slips of paper were the same size. This happens by default if you don’t provide a <code>prob</code> argument; all elements in the <code>outcomes</code> vector have an equal probability of being drawn.</p>
 <p>If you want to learn more about <code>sample</code> or any other function, recall that you can always check out its help file.</p>
-<pre class="r"><code>?sample</code></pre>
-<pre><code>## starting httpd help server ... done</code></pre>
+<pre class="r"><code>#?sample</code></pre>
 </div>
 <div id="simulating-the-independent-shooter" class="section level2">
 <h2>Simulating the Independent Shooter</h2>
